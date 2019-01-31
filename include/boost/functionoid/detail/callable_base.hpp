@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 ///
 /// Boost.Functionoid library
-/// 
+///
 /// \file callable_base.hpp
 /// -----------------------
 ///
@@ -519,7 +519,7 @@ using functor_manager = typename functor_manager_aux
 /// are used (instead of const pointers) by generating/storing 'null
 /// references'.
 ///                                       (14.10.2016.) (Domagoj Saric)
-#if BOOST_WORKAROUND( BOOST_MSVC, BOOST_TESTED_AT( 1900 ) ) || ( defined( __clang__ ) && __clang_major__ >= 4 && __clang_major__ != 8 )
+#if BOOST_WORKAROUND( BOOST_MSVC, BOOST_TESTED_AT( 1900 ) ) || ( defined( __clang__ ) && __clang_major__ >= 4 )
 #define BOOST_AUX_NOEXCEPT_PTR( condition )
 #else
 #define BOOST_AUX_NOEXCEPT_PTR( condition ) noexcept( condition )
@@ -925,7 +925,7 @@ protected:
 		(
 			emptyHandler,
 			empty_handler_vtable,
-			empty_handler_vtable, 
+			empty_handler_vtable,
 			std::allocator<EmptyHandler>(),
 			std::false_type()
 		);
@@ -1029,20 +1029,20 @@ private: // Assignment from another functionoid helpers.
 		guard.cancel();
 	}
 
-	void destroy() noexcept 
+	void destroy() noexcept
     #ifdef __clang__
         __attribute__(( no_sanitize( "function" ) ))
     #endif
-    { 
-        get_vtable().destroy( this->functor_ ); 
+    {
+        get_vtable().destroy( this->functor_ );
     }
 
-    void move_to( callable_base & destination, std::true_type  /*    has move*/ ) const noexcept( Traits::moveable >= support_level::nofail ) 
+    void move_to( callable_base & destination, std::true_type  /*    has move*/ ) const noexcept( Traits::moveable >= support_level::nofail )
     #ifdef __clang__
         __attribute__(( no_sanitize( "function" ) ))
     #endif
-    { 
-        get_vtable().move ( std::move( this->functor_ ), destination.functor_ ); 
+    {
+        get_vtable().move ( std::move( this->functor_ ), destination.functor_ );
     }
     void move_to( callable_base & destination, std::false_type /*not has move*/ ) const noexcept( Traits::copyable >= support_level::nofail )
 #ifdef __clang__
